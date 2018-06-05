@@ -42,7 +42,21 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
     if(!permissionGranted){
         conv.ask('Ok, no worries. What\'s your favorite color');
     } else {
-        conv.data.userName = conv.user.name.display;
+        conv.data.userName = conv.user.name.given;
         conv.ask(`Thanks, ${conv.data.userName}. What's your favorite color?`);
+    }
+});
+
+// Intent to return one's sleep score
+app.intent('sleep score', (conv) => {
+    const sleepScore = Math.floor((Math.random() * 100) + 1);
+    if(conv.data.userName){
+        if(sleepScore > 80){
+            conv.close(`Great job, ${conv.data.userName}, your sleep score of ` + sleepScore + ' was excellent. Keep it up!');
+        } else {
+            conv.close('Your sleep score was ' + sleepScore + ' the best way to improve your score is to get more sleep.');
+        }
+    } else{
+        conv.close('Your sleep score for last night was' + sleepScore);
     }
 });
